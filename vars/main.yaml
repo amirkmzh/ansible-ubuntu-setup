@@ -1,0 +1,8 @@
+---
+"user": <username>
+"docker_compose_version": <docker compose version>
+# "docker_compose_version": "2.5.0"
+"ubuntu_code_name": <ubuntu code name>
+# "ubuntu_code_name": focal
+"nodejs_version": <nodejs version>
+# "nodejs_version": "16.17.0"

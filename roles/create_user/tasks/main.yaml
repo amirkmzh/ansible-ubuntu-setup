@@ -1,0 +1,26 @@
+---
+  - name: Create {{ user }} account 
+    user:
+      name: "{{ user }}"
+      comment: create user {{ user }} with ssh key
+      groups: root, sudo 
+      append: yes
+      shell: /bin/bash
+      state: present
+      create_home: true
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+
+  - name: Sudo access
+    copy:
+      dest: "/etc/sudoers.d/{{ user }}"
+      content: '{{ user }} ALL=(ALL) NOPASSWD: ALL'
+      validate: /usr/sbin/visudo -cf %s
+
+  - name: Add ssh key to user
+    copy:
+      src: ~/.ssh/id_rsa.pub
+      dest: "/home/{{ user }}/.ssh/authorized_keys"
+
+  

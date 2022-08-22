@@ -1,0 +1,26 @@
+---
+  - name: Check nodejs 
+    shell: node -v
+    register: node_exists
+    ignore_errors: true
+  
+  - name: Download node 
+    get_url: 
+      url: "https://nodejs.org/dist/v{{nodejs_version}}/node-v{{nodejs_version}}-linux-x64.tar.xz"
+      dest: ~/node.tar.xz 
+
+  - name: Unarchive nodejs
+    unarchive:
+      src: ~/node.tar.xz
+      dest: /opt/
+      remote_src: yes
+    register: node_downloaded
+    when: node_exists.failed == true
+
+  - name: update path
+    lineinfile: 
+      dest: /etc/environment
+      state: present
+      backrefs: yes
+      regexp: 'PATH=(["]*)((?!.*?/opt/node-v{{nodejs_version}}-linux-x64/bin).*?)(["]*)$'
+      line: 'PATH=\1\2:/opt/node-v{{nodejs_version}}-linux-x64/bin\3'

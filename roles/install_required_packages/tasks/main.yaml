@@ -1,0 +1,29 @@
+---
+  
+  - name: install required packages
+    vars:
+      packages:
+      - curl
+      - git
+      - git-core
+      - jq
+      - ufw 
+      - nano 
+      - htop 
+      - neofetch 
+      - build-essential
+      - unzip
+      - fail2ban
+      - unbound
+      - python3-pip
+      - qemu-kvm
+      - tar
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+      - gnupg-agent
+      - tmux
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      force: yes

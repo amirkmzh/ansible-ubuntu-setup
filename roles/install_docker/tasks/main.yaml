@@ -1,0 +1,50 @@
+---      
+  - name: Sign keys
+    apt_key: 
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+  
+  - name: Add Docker repo
+    apt_repository: 
+      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_code_name }} stable"
+      state: present
+
+  - name: Install docker & containerd
+    apt: 
+      name: "{{ packages }}"
+      state: present
+      update_cache: yes
+    vars: 
+      packages:
+      - docker-ce
+      - docker-ce-cli 
+      - containerd.io
+
+  - name: Docker compose download
+    get_url: 
+      url: "https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-Linux-x86_64"
+      dest: ~/docker-compose
+      mode: '+x'
+
+  - name: Check docker compose downloaded
+    stat:
+      path: ~/docker-compose
+    register: docker_compose
+
+  - name: Add docker-compose to $PATH
+    command: mv ~/docker-compose /usr/local/bin/docker-compose
+    when: docker_compose.stat.exists
+
+  - name: Create docker group
+    group:
+      name: docker
+      state: present
+  
+  - name: Add user to group
+    user:
+      name: "{{ user }}"
+      group: docker
+      append: yes
+
+      
+    
