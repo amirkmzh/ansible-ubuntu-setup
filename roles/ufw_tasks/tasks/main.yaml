@@ -1,0 +1,25 @@
+---
+
+    - name: Disable UFW
+      ufw:
+        state: disabled
+
+    - name: Enable UFW and deny all incoming
+      ufw:
+        default: deny
+        state: enabled
+        policy: deny incoming
+
+    - name: Enable UFW and allow specific ports
+      ufw:
+        state: enabled
+        rule: allow
+        port: "{{ item }}"
+      loop:
+        - 22 
+        - 80 
+        - 443 
+
+    - name: Reload UFW
+      ufw:
+        state: reloaded

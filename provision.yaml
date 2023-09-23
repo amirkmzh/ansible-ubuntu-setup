@@ -8,9 +8,13 @@
   vars_files: 
     - ./vars/main.yaml
   roles:
+    - ufw_tasks
+    - set_timezone
     - upgrade_debian_packages
     - install_required_packages
     - create_user
     - ssh_only_auth
     - install_docker
-    - install_nodejs
+    - install_python3_packages
+    
+    # - install_nodejs

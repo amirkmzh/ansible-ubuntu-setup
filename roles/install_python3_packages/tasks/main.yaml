@@ -1,0 +1,11 @@
+---
+  - name: install required python packages
+    pip:
+      name:
+        - venv
+        - pandas
+        - matplotlib
+        - seaborn
+        - sklearn
+        - numpy 
+      state: present
