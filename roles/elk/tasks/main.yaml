@@ -1,0 +1,58 @@
+---
+  - name: Add Elastic GPP key
+    become: true
+    apt_key:
+      url: https://artifacts.elastic.co/GPG-KEY-elasticsearch 
+      state: present
+      
+  - name: Add Elasticsearch APT repository
+    become: true
+    apt_repository: 
+      repo: deb https://artifacts.elastic.co/packages/7.x/apt stable main
+      state: present
+      # filename: elastic-7.x
+  
+  - name: Update all packages
+    become: true
+    apt:
+      update_cache: yes
+      force_apt_get: yes
+      update_cache_retries: yes
+
+  - name: Install Elasticsearch
+    become: true
+    apt: 
+      name: elasticsearch
+      state: present
+      force: yes
+
+  - name: Enable and start Elasticsearch service
+    become: true
+    systemd:
+      name: elasticsearch
+      enabled: yes
+      state: started
+
+  - name: Install Logstash
+    become: true
+    apt: 
+      name: logstash 
+      state: present 
+      force: yes 
+  
+  - name: Install Kibana
+    become: true
+    apt: 
+      name: kibana 
+      state: present 
+      force: yes 
+
+  - name: Enable and start Logstash and Kibana services
+    become: true
+    systemd: 
+      name: "{{ item }}"
+      enabled: yes
+      state: started 
+      loop:
+        - logstash
+        - kibana 

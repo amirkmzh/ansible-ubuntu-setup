@@ -1,6 +1,7 @@
 ---
   
   - name: install required packages
+    become: true
     vars:
       packages:
       - curl
@@ -23,6 +24,7 @@
       - software-properties-common
       - gnupg-agent
       - tmux
+      - openjdk-11-jdk
     apt: 
       name: "{{ packages }}"
       state: present

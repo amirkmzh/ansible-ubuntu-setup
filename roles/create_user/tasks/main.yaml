@@ -1,5 +1,6 @@
 ---
   - name: Create {{ user }} account 
+    become: yes
     user:
       name: "{{ user }}"
       comment: create user {{ user }} with ssh key
@@ -13,12 +14,14 @@
       ssh_key_file: .ssh/id_rsa
 
   - name: Sudo access
+    become: yes
     copy:
       dest: "/etc/sudoers.d/{{ user }}"
       content: '{{ user }} ALL=(ALL) NOPASSWD: ALL'
       validate: /usr/sbin/visudo -cf %s
 
   - name: Add ssh key to user
+    become: yes
     copy:
       src: ~/.ssh/id_rsa.pub
       dest: "/home/{{ user }}/.ssh/authorized_keys"

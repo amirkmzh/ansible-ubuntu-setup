@@ -1,6 +1,8 @@
 ---
 - hosts: all
-  user: root
+  user: osboxes
+  become_user: root
+  become_method: sudo
   # vars: 
   #   username: root
   #   public_key: ~/.ssh/id_rsa.pub
@@ -8,13 +10,17 @@
   vars_files: 
     - ./vars/main.yaml
   roles:
-    - ufw_tasks
-    - set_timezone
-    - upgrade_debian_packages
-    - install_required_packages
-    - create_user
-    - ssh_only_auth
-    - install_docker
-    - install_python3_packages
+    # - dns_configuration
+    # - upgrade_debian_packages
+    # - install_required_packages
+    # - create_user
+    # - ssh_only_auth
+    # - install_docker
+    # - install_python3_packages
+    # - set_timezone
+    # - ufw_tasks
+    - elk
+
+
     
     # - install_nodejs

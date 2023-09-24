@@ -1,8 +1,11 @@
 ---
-"user": <username>
-"docker_compose_version": <docker compose version>
+"user": cloudsec
+"docker_compose_version": 2.22.0
 # "docker_compose_version": "2.5.0"
-"ubuntu_code_name": <ubuntu code name>
-# "ubuntu_code_name": focal
-"nodejs_version": <nodejs version>
+# "ubuntu_code_name": <ubuntu code name>
+"ubuntu_code_name": focal
+# "nodejs_version": <nodejs version>
 # "nodejs_version": "16.17.0"
+"dns_nameserver": 178.22.122.100
+ansible_ssh_pass: osboxes.org
+ansible_become_password: osboxes.org

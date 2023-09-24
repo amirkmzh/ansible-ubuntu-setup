@@ -1,49 +1,64 @@
 ---      
-  - name: Sign keys
-    apt_key: 
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
+  # - name: Sign keys
+  #   become: yes
+  #   apt_key: 
+  #     url: https://download.docker.com/linux/ubuntu/gpg
+  #     state: present
   
-  - name: Add Docker repo
-    apt_repository: 
-      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_code_name }} stable"
-      state: present
+  # - name: Add Docker repo
+  #   become: yes
+  #   apt_repository: 
+  #     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+  #     state: present
 
-  - name: Install docker & containerd
+  # - name: Install docker & containerd
+  #   become: yes
+  #   apt: 
+  #     name: "{{ packages }}"
+  #     state: present
+  #     update_cache: yes
+  #   vars: 
+  #     packages:
+  #     - docker-ce
+  #     - docker-ce-cli 
+  #     - containerd.io
+
+  - name: install docker.io
+    become: yes
     apt: 
-      name: "{{ packages }}"
+      name: docker.io
       state: present
-      update_cache: yes
-    vars: 
-      packages:
-      - docker-ce
-      - docker-ce-cli 
-      - containerd.io
+      force: true
 
   - name: Docker compose download
+    become: yes
     get_url: 
       url: "https://github.com/docker/compose/releases/download/v{{ docker_compose_version }}/docker-compose-Linux-x86_64"
       dest: ~/docker-compose
       mode: '+x'
 
   - name: Check docker compose downloaded
+    become: yes
     stat:
       path: ~/docker-compose
     register: docker_compose
 
   - name: Add docker-compose to $PATH
+    become: yes
     command: mv ~/docker-compose /usr/local/bin/docker-compose
     when: docker_compose.stat.exists
 
   - name: Create docker group
+    become: yes
     group:
       name: docker
       state: present
   
   - name: Add user to group
+    become: yes
     user:
       name: "{{ user }}"
-      group: docker
+      groups: docker
       append: yes
 
       

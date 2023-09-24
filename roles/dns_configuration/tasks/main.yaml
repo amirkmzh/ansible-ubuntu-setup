@@ -1,0 +1,15 @@
+---
+  - name: dns configuration
+    become: true
+    lineinfile:
+      path: /etc/resolv.conf
+      line: "nameserver {{ dns_nameserver }}"
+      state: present
+      insertafter: EOF
+      # validate: "cat %s | grep -q '^nameserver {{ dns_nameserver }}$'"
+    
+  # - name: restart networking service 
+  #   become: yes
+  #   service:
+  #     name: networking
+  #     state: restarted

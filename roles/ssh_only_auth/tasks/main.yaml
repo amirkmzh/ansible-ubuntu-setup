@@ -1,5 +1,6 @@
 ---
   - name: disable password auth 
+    become: true
     lineinfile :
       dest: /etc/ssh/sshd_config
       regexp: "^#?PasswordAuthentication"

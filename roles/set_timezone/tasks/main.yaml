@@ -1,5 +1,6 @@
 ---
 
-  - name: Set Asia/Tehran as timezone
+  - name: Set Asia/Tehran as timezone 
+    become: yes
     timezone:
       name: Asia/Tehran
